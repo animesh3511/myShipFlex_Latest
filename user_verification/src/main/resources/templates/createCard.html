@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorator="layout/layout">
+<head>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+
+        const stripe = Stripe('pk_test_51Py4ib082jp7x4ErO7NLNwx9lunuu3GXt8OXy8yC6TsNJpDKBlvKjKEknuXpJ6nRrZ9QB0IKIssfTJCdsQTyPG5N00ZpYrTwz0'); // Replace with your actual public key
+        const elements = stripe.elements();
+
+
+        const cardElement = elements.create('card');
+        cardElement.mount('#card-element');
+
+
+        const form = document.getElementById('card-form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const {token, error} = await stripe.createToken(cardElement);
+            if (error) {
+
+                const errorElement = document.getElementById('card-errors');
+                errorElement.textContent = error.message;
+            } else {
+
+                const hiddenInput = document.createElement('input');
+                hiddenInput.setAttribute('type', 'hidden');
+                hiddenInput.setAttribute('name', 'stripeToken');
+                hiddenInput.setAttribute('value', token.id);
+                form.appendChild(hiddenInput);
+
+
+                form.submit();
+            }
+        });
+    </script>
+</head>
+
+<body>
+
+<div class="container my-5" layout:fragment="content">
+
+    <h2 class="mb-5">Add Card</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <form id="card-form" action="#" th:action="@{/addCard}" th:object="${cardData}" method="post">
+
+                <div class="row">
+
+                    <div class="form-group col-md-6">
+                        <label for="email" class="col-form-label">Email</label>
+                        <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="Email" required>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="card-element" class="col-form-label">Card Details</label>
+                        <div id="card-element" class="form-control"></div>
+                        <div id="card-errors" role="alert" style="color: red;"></div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mt-5">
+                        <input type="submit" class="btn btn-primary" value="Add Card">
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

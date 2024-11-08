@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/layout">
+
+<head>
+    <title>Charge Details</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+    <div class="container my-5">
+        <h2>Charge Details for Customer ID: <span th:text="${customerId}"></span></h2>
+        <table class="table table-striped table-responsive-md">
+            <thead>
+            <tr>
+                <th>Amount</th>
+                <th>Paid</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Card</th>
+                <th>ChargeId</th>
+                <th>last4</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="charge : ${chargeDetails}">
+                <td th:text="${charge.amount}"></td>
+                <td th:text="${charge.paid}"></td>
+                <td th:text="${charge.name}"></td>
+                <td th:text="${charge.email}"></td>
+                <td th:text="${charge.card}"></td>
+                <td th:text="${charge.chargeId}"></td>
+                <td th:text="${charge.last4}"></td>
+                <!--<td th:text="${paymentMethod.card.exp_month} + '/' + ${paymentMethod.card.exp_year}"></td>-->
+            </tr>
+            </tbody>
+        </table>
+
+        <p>
+            <a href="/customer" class="btn btn-primary">Back to Customers</a>
+        </p>
+    </div>
+
+</div>
+
+</body>
+</html>

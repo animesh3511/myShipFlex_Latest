@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Payment Methods</title>
+</head>
+<body>
+<h2>Payment Methods</h2>
+<table border="1">
+    <tr>
+        <th>Payment Method ID</th>
+        <th>Customer ID</th>
+        <th>Payment Method Type</th>
+        <th>Customer Email</th>
+        <th>Card Brand</th>
+    </tr>
+    <tr th:each="paymentMethod : ${paymentMethods}">
+        <td th:text="${paymentMethod.paymentMethodId}"></td>
+        <td th:text="${paymentMethod.customerId}"></td>
+        <td th:text="${paymentMethod.paymentMethodType}"></td>
+        <td th:text="${paymentMethod.customerEmail}"></td>
+        <td th:text="${paymentMethod.cardBrand}"></td>
+    </tr>
+</table>
+</body>
+</html>
